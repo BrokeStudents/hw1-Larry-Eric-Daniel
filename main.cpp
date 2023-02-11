@@ -15,10 +15,25 @@ public:
         input_file.close();
         output_file.close();
     };
-    void input(){
+    void input() {
+
+        cout << "Enter the csv file name with .csv extension. " << endl;
+        cin >> fileName;
+        input_file.open(fileName);
+        if (!input_file.is_open())
+            cout << "Error: File Open" << endl;
 
     };
-    void output(){
+    void output() {
+        while (input_file.good()) {
+
+            string line1;
+            string line2;
+            getline(input_file, line1, ',');
+            getline(input_file, line2, '\n');
+
+            cout << line1 << " " << line2 << endl;
+        }
 
     };
     int totalPopulation() const {
@@ -27,40 +42,24 @@ public:
     int avgRepPerPop() const {
         return 0;
     };
-    float representatives(){
+    float representatives() {
         return 0;
     };
-    void distribute(){
+    void distribute() {
 
     };
 
 private:
     int max_rep;
+    string fileName;
     ifstream input_file;
     ofstream output_file;
 };
 
 int main()
 {
-    string fileName;
-    cout << "Enter the csv file name with .csv extension. " << endl;
-    cin >> fileName;
-    ifstream myFile(fileName);
-
-
-    if (!myFile.is_open())
-        cout << "Error: File Open" << endl;
-
-    while (myFile.good()) {
-
-        string line1;
-        string line2;
-        getline(myFile, line1, ',');
-        getline(myFile, line2, '\n');
-
-        cout << line1 << " " << line2 << endl;
-    }
-
-    myFile.close();
+    Apportionment test1;
+    test1.input();
+    test1.output();
     return 0;
 }
