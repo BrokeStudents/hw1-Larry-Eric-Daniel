@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
 class Apportionment
@@ -21,13 +22,13 @@ public:
 
     };
     int totalPopulation() const {
-
+        return 0;
     };
     int avgRepPerPop() const {
-
+        return 0;
     };
     float representatives(){
-
+        return 0;
     };
     void distribute(){
 
@@ -41,5 +42,25 @@ private:
 
 int main()
 {
+    string fileName;
+    cout << "Enter the csv file name with .csv extension. " << endl;
+    cin >> fileName;
+    ifstream myFile(fileName);
+
+
+    if (!myFile.is_open())
+        cout << "Error: File Open" << endl;
+
+    while (myFile.good()) {
+
+        string line1;
+        string line2;
+        getline(myFile, line1, ',');
+        getline(myFile, line2, '\n');
+
+        cout << line1 << " " << line2 << endl;
+    }
+
+    myFile.close();
     return 0;
 }
