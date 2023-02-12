@@ -21,7 +21,7 @@ public:
         cin >> fileName;
         input_file.open(fileName);
         if (!input_file.is_open())
-            cout << "Error: File Open" << endl;
+            cout << "Error: File Opening failed" << endl;
 
     };
     void output() {
