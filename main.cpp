@@ -60,7 +60,6 @@ public:
 
         return population / max_rep;
 
-
     };
 
     void representatives() {
