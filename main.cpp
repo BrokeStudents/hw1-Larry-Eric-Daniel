@@ -26,15 +26,7 @@ public:
         input_file.open(fileName);
         if (!input_file.is_open())
             cout << "Error: File Opening failed" << endl;
-    void input() {
-
-        cout << "Enter the csv file name with .csv extension. " << endl;
-        cin >> fileName;
-        input_file.open(fileName);
-        if (!input_file.is_open())
-            cout << "Error: File Open" << endl;
-
-    };
+    }
     void output() {
         while (input_file.good()) {
             string line1;
@@ -47,18 +39,7 @@ public:
             numbers.push_back(atoi(line2.c_str())); //Convert line2 to an integer and store them in a vector
          
         }
-    void output() {
-        while (input_file.good()) {
-
-            string line1;
-            string line2;
-            getline(input_file, line1, ',');
-            getline(input_file, line2, '\n');
-
-            cout << line1 << " " << line2 << endl;
-        }
-
-    };
+    }
     int totalPopulation() const {
 
         int population = 0;
@@ -73,20 +54,21 @@ public:
     };
 
     int avgRepPerPop() const {
-        return 0;
+        int population = totalPopulation();
+
+        return population / max_rep;
+
     
     };
 
     float representatives() {
         return 0;
-    float representatives() {
+    }
+    void distribute() {
+
         return 0;
     };
-    void distribute() {
-    void distribute() {
-
-    };
-
+    
 private:
     int max_rep;
     string fileName;
@@ -106,6 +88,7 @@ int main()
     test1.output();
 
     cout << '\n' << "Total Population: " << test1.totalPopulation();
+    cout << '\n' << "Population average: " << test1.avgRepPerPop();
 
     return 0;
 }
