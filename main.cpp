@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <string>
 #include <vector>
 #include <algorithm>
 
@@ -24,6 +25,13 @@ public:
         cin >> fileName;
         input_file.open(fileName);
         if (!input_file.is_open())
+            cout << "Error: File Opening failed" << endl;
+    void input() {
+
+        cout << "Enter the csv file name with .csv extension. " << endl;
+        cin >> fileName;
+        input_file.open(fileName);
+        if (!input_file.is_open())
             cout << "Error: File Open" << endl;
 
     };
@@ -38,6 +46,16 @@ public:
             
             numbers.push_back(atoi(line2.c_str())); //Convert line2 to an integer and store them in a vector
          
+        }
+    void output() {
+        while (input_file.good()) {
+
+            string line1;
+            string line2;
+            getline(input_file, line1, ',');
+            getline(input_file, line2, '\n');
+
+            cout << line1 << " " << line2 << endl;
         }
 
     };
@@ -56,11 +74,15 @@ public:
 
     int avgRepPerPop() const {
         return 0;
+    
     };
 
     float representatives() {
         return 0;
+    float representatives() {
+        return 0;
     };
+    void distribute() {
     void distribute() {
 
     };
