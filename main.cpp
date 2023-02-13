@@ -61,9 +61,25 @@ public:
     
     };
 
-    float representatives() {
-        return 0;
-    }
+    void representatives() {
+
+        int average = avgRepPerPop();
+
+        for (int i = 0; i < 50; i ++) {
+
+            number_of_Representatives[i] =  numbers[i] / static_cast<float>(average);
+
+            floorValue[i] = floor(number_of_Representatives[i]);
+
+            remainder[i] = number_of_Representatives[i] - floorValue[i];
+
+            cout << '\n' <<" Representatives: " << number_of_Representatives[i] <<" floorValue : " << floorValue[i]  <<" remainder : " << remainder[i] << '\n';
+
+        }
+
+    };
+
+    
     void distribute() {
 
         return 0;
@@ -90,5 +106,7 @@ int main()
     cout << '\n' << "Total Population: " << test1.totalPopulation();
     cout << '\n' << "Population average: " << test1.avgRepPerPop();
 
+    test1.representatives();
+    
     return 0;
 }
