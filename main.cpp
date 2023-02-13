@@ -92,7 +92,37 @@ public:
     };
 
     void distribute() {
-        return 0;
+
+        float copyRemainder[50];
+
+        for (int i = 0; i < 50; i++) {
+            copyRemainder[i] = remainder[i];
+
+           }
+        sort(copyRemainder, copyRemainder + 50);
+       
+        
+        int representativesLeft = representativeLeft();
+        if (representativesLeft > 0) {
+      
+                for (int i = 0; i < 50; i++) {
+                    for (int k = 50; k > 50 - representativesLeft; k--) {
+                        if (remainder[i] == copyRemainder[k]) { //Since copyRemainder is a sorted list in ascending order, find the index of the next largest remainder value and add a representative in a descending until there are no more leftover representatives.
+
+                            floorValue[i] += 1;
+
+                        }
+
+                }
+            }
+        }
+        
+        for (int i = 0; i < 50; i++) {
+
+            cout << "\n"  << " Representatives: " << number_of_Representatives[i] << " floorValue: " << floorValue[i] << " remainder: " << remainder[i] << '\n';
+
+        }
+       
     };
     
 private:
@@ -117,8 +147,8 @@ int main()
 
      test1.representatives();
      cout << '\n' << "Representatives left to distribute: " << test1.representativeLeft();
-
+     cout << '\n' << "Number of Representatives after re-distributing: " << endl;
+     test1.distribute();
 
     return 0;
 }
-
