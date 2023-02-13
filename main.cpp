@@ -39,18 +39,8 @@ public:
     int totalPopulation() const {
         return 0;
     };
-<<<<<<< HEAD
     int avgRepPerPop() const {
         return 0;
-=======
-
-    int avgRepPerPop() const  {
-        int population = totalPopulation();
-
-        return population / max_rep;
-
-
->>>>>>> parent of 8da32bf (Made changes)
     };
     float representatives() {
         return 0;
