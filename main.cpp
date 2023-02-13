@@ -24,7 +24,7 @@ public:
         cin >> fileName;
         input_file.open(fileName);
         if (!input_file.is_open())
-            cout << "Error: File Open" << endl;
+            cout << "Error: File Failed to Open" << endl;
 
     };
     void output() {
@@ -42,7 +42,7 @@ public:
         }
 
     };
-    int totalPopulation() {
+    int totalPopulation() const { 
         int population = 0;
 
         for (auto it = numbers.begin(); it != numbers.end(); ++it) {
@@ -55,7 +55,7 @@ public:
     
     };
 
-    int avgRepPerPop()  {
+    int avgRepPerPop() const  {
         int population = totalPopulation();
 
         return population / max_rep;
