@@ -92,9 +92,7 @@ public:
     };
 
     void distribute() {
-
         return 0;
-       
     };
     
 private:
