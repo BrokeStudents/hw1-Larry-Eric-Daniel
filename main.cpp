@@ -1,10 +1,9 @@
+
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <string>
 #include <vector>
 #include <algorithm>
-
 using namespace std;
 
 class Apportionment
@@ -25,9 +24,11 @@ public:
         cin >> fileName;
         input_file.open(fileName);
         if (!input_file.is_open())
-            cout << "Error: File Opening failed" << endl;
-    }
+            cout << "Error: File Failed to Open" << endl;
+
+    };
     void output() {
+ 
         while (input_file.good()) {
             string line1;
             string line2;
@@ -36,29 +37,29 @@ public:
           
             cout << line1 << " " << line2 << endl;
             
-            numbers.push_back(atoi(line2.c_str())); //Convert line2 to an integer and store them in a vector
+            numbers.push_back(atoi(line2.c_str()));
          
         }
-    }
-    int totalPopulation() const {
 
+    };
+    int totalPopulation() const { 
         int population = 0;
 
         for (auto it = numbers.begin(); it != numbers.end(); ++it) {
-            population += *it; 
+            population += *it;
         }
 
             
 
         return population;
+    
     };
 
-    int avgRepPerPop() const {
+    int avgRepPerPop() const  {
         int population = totalPopulation();
 
         return population / max_rep;
 
-    
     };
 
     void representatives() {
@@ -79,10 +80,48 @@ public:
 
     };
 
-    
+    int representativeLeft() {
+        int totalRepresentatives = 0;
+        for (int i = 0; i < 50; i++) {
+            totalRepresentatives += floorValue[i];
+        }
+        int representativesLeft = max_rep - totalRepresentatives;
+
+        return representativesLeft;
+    };
+
     void distribute() {
 
-        return 0;
+        float copyRemainder[50];
+
+        for (int i = 0; i < 50; i++) {
+            copyRemainder[i] = remainder[i];
+
+           }
+        sort(copyRemainder, copyRemainder + 50);
+       
+        
+        int representativesLeft = representativeLeft();
+        if (representativesLeft > 0) {
+      
+                for (int i = 0; i < 50; i++) {
+                    for (int k = 50; k > 50 - representativesLeft; k--) {
+                        if (remainder[i] == copyRemainder[k]) { //Since copyRemainder is a sorted list in ascending order, find the index of the next largest remainder value and add a representative in a descending until there are no more leftover representatives.
+
+                            floorValue[i] += 1;
+
+                        }
+
+                }
+            }
+        }
+        
+        for (int i = 0; i < 50; i++) {
+
+            cout << "\n"  << " Representatives: " << number_of_Representatives[i] << " floorValue: " << floorValue[i] << " remainder: " << remainder[i] << '\n';
+
+        }
+       
     };
     
 private:
@@ -102,11 +141,13 @@ int main()
     Apportionment test1;
     test1.input();
     test1.output();
-
     cout << '\n' << "Total Population: " << test1.totalPopulation();
     cout << '\n' << "Population average: " << test1.avgRepPerPop();
 
-    test1.representatives();
-    
+     test1.representatives();
+     cout << '\n' << "Representatives left to distribute: " << test1.representativeLeft();
+     cout << '\n' << "Number of Representatives after re-distributing: " << endl;
+     test1.distribute();
+
     return 0;
 }
