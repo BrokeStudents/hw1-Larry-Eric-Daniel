@@ -1,10 +1,10 @@
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 #include <algorithm>
 #include<array>
+#include <cmath>
 using namespace std;
 
 class Apportionment
