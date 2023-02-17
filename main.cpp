@@ -36,8 +36,10 @@ public:
             getline(input_file, line2, '\n');
             rep.push_back(line1);
             numbers.push_back(atoi(line2.c_str()));
+
         }
     };
+
     int totalPopulation() const
     {
         int population = 0;
@@ -70,11 +72,13 @@ public:
         }
     };
 
+
 private:
     int max_rep;
     string fileName;
     ifstream input_file;
     ofstream output_file;
+
     vector<int> numbers;
     float number_of_Representatives[51];
     float remainder[51];
@@ -101,6 +105,7 @@ private:
             }
         }
     }
+
 };
 
 int main()
@@ -108,10 +113,10 @@ int main()
     Apportionment test1;
     test1.input();
     test1.output();
-
     cout << '\n'
          << "Total Population: " << test1.totalPopulation();
     cout << '\n'
          << "Population average: " << test1.avgRepPerPop();
+
     return 0;
 }
