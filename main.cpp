@@ -13,6 +13,10 @@ public:
     {
         max_rep = 435;
     };
+    Apportionment(int max_number_of_representatives)
+    {
+        max_rep = max_number_of_representatives;
+    };
     ~Apportionment()
     {
         input_file.close();
@@ -36,7 +40,6 @@ public:
             getline(input_file, line2, '\n');
             rep.push_back(line1);
             numbers.push_back(atoi(line2.c_str()));
-
         }
     };
 
@@ -58,20 +61,15 @@ public:
 
     void output()
     {
-        int average = avgRepPerPop();
-
+        distribute();
         for (int i = 0; i < 51; i++)
         {
-            number_of_Representatives[i] = numbers[i] / static_cast<float>(average);
-            floorValue[i] = floor(number_of_Representatives[i]);
-            remainder[i] = number_of_Representatives[i] - floorValue[i];
             cout << '\n'
                  << rep[i] << " - "
                  << "Representatives: " << number_of_Representatives[i] << " floorValue : " << floorValue[i] << " remainder : " << remainder[i] << '\n';
             writeRecordToFile("Rep2020.csv", rep[i], i);
         }
     };
-
 
 private:
     int max_rep;
@@ -95,17 +93,56 @@ private:
             {
                 file << "State,Representatives" << endl;
             }
-            else if (remainder[i] >= 0.5)
-            {
-                file << Field1 << "," << floorValue[i] + 1 << endl;
-            }
             else
             {
                 file << Field1 << "," << floorValue[i] << endl;
             }
         }
     }
+    int representativeLeft()
+    {
+        int totalRepresentatives = 0;
+        for (int i = 0; i < 51; i++)
+        {
+            totalRepresentatives += floorValue[i];
+        }
+        int representativesLeft = max_rep - totalRepresentatives + 1;
 
+        return representativesLeft;
+    };
+
+    void distribute()
+    {
+
+        int states = 51;
+        float copyRemainder[states];
+        int average = avgRepPerPop();
+
+        for (int i = 0; i < 51; i++)
+        {
+            number_of_Representatives[i] = numbers[i] / static_cast<float>(average);
+            floorValue[i] = floor(number_of_Representatives[i]);
+            remainder[i] = number_of_Representatives[i] - floorValue[i];
+            copyRemainder[i] = remainder[i];
+        }
+
+        sort(copyRemainder, copyRemainder + states);
+
+        int representativesLeft = representativeLeft();
+        if (representativesLeft > 0)
+        {
+            for (int i = 0; i < states; i++)
+            {
+                for (int k = states; k > states - representativesLeft; k--)
+                {
+                    if (remainder[i] == copyRemainder[k])
+                    { // Since copyRemainder is a sorted list in ascending order, find the index of the next largest remainder value and add a representative in a descending until there are no more leftover representatives.
+                        floorValue[i] += 1;
+                    }
+                }
+            }
+        }
+    };
 };
 
 int main()
@@ -116,7 +153,7 @@ int main()
     cout << '\n'
          << "Total Population: " << test1.totalPopulation();
     cout << '\n'
-         << "Population average: " << test1.avgRepPerPop();
+         << "Population average: " << test1.avgRepPerPop() << '\n';
 
     return 0;
 }
