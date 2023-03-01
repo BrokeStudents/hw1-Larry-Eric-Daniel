@@ -13,6 +13,10 @@ public:
     {
         max_rep = 435;
     };
+    Apportionment(int max_number_of_representatives)
+    {
+        max_rep = max_number_of_representatives;
+    };
     ~Apportionment()
     {
         input_file.close();
