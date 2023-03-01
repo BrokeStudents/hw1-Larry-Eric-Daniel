@@ -40,10 +40,8 @@ public:
             getline(input_file, line2, '\n');
             rep.push_back(line1);
             numbers.push_back(atoi(line2.c_str()));
-
         }
     };
-
 
     int totalPopulation() const
     {
@@ -63,13 +61,9 @@ public:
 
     void output()
     {
-        int average = avgRepPerPop();
         distribute();
         for (int i = 0; i < 51; i++)
         {
-            number_of_Representatives[i] = numbers[i] / static_cast<float>(average);
-            floorValue[i] = floor(number_of_Representatives[i]);
-            remainder[i] = number_of_Representatives[i] - floorValue[i];
             cout << '\n'
                  << rep[i] << " - "
                  << "Representatives: " << number_of_Representatives[i] << " floorValue : " << floorValue[i] << " remainder : " << remainder[i] << '\n';
@@ -77,13 +71,11 @@ public:
         }
     };
 
-
 private:
     int max_rep;
     string fileName;
     ifstream input_file;
     ofstream output_file;
-
 
     vector<int> numbers;
     float number_of_Representatives[51];
@@ -101,10 +93,6 @@ private:
             {
                 file << "State,Representatives" << endl;
             }
-            else if (remainder[i] >= 0.5)
-            {
-                file << Field1 << "," << floorValue[i] + 1 << endl;
-            }
             else
             {
                 file << Field1 << "," << floorValue[i] << endl;
@@ -114,24 +102,30 @@ private:
     int representativeLeft()
     {
         int totalRepresentatives = 0;
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 51; i++)
         {
             totalRepresentatives += floorValue[i];
         }
-        int representativesLeft = max_rep - totalRepresentatives;
+        int representativesLeft = max_rep - totalRepresentatives + 1;
 
         return representativesLeft;
     };
 
     void distribute()
     {
+
         int states = 51;
         float copyRemainder[states];
+        int average = avgRepPerPop();
 
-        for (int i = 0; i < states; i++)
+        for (int i = 0; i < 51; i++)
         {
+            number_of_Representatives[i] = numbers[i] / static_cast<float>(average);
+            floorValue[i] = floor(number_of_Representatives[i]);
+            remainder[i] = number_of_Representatives[i] - floorValue[i];
             copyRemainder[i] = remainder[i];
         }
+
         sort(copyRemainder, copyRemainder + states);
 
         int representativesLeft = representativeLeft();
