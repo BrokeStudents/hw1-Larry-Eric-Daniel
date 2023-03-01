@@ -13,6 +13,10 @@ public:
     {
         max_rep = 435;
     };
+    Apportionment(int max_number_of_representatives)
+    {
+        max_rep = max_number_of_representatives;
+    };
     ~Apportionment()
     {
         input_file.close();
@@ -40,6 +44,7 @@ public:
         }
     };
 
+
     int totalPopulation() const
     {
         int population = 0;
@@ -59,7 +64,7 @@ public:
     void output()
     {
         int average = avgRepPerPop();
-
+        distribute();
         for (int i = 0; i < 51; i++)
         {
             number_of_Representatives[i] = numbers[i] / static_cast<float>(average);
@@ -78,6 +83,7 @@ private:
     string fileName;
     ifstream input_file;
     ofstream output_file;
+
 
     vector<int> numbers;
     float number_of_Representatives[51];
@@ -105,7 +111,44 @@ private:
             }
         }
     }
+    int representativeLeft()
+    {
+        int totalRepresentatives = 0;
+        for (int i = 0; i < 50; i++)
+        {
+            totalRepresentatives += floorValue[i];
+        }
+        int representativesLeft = max_rep - totalRepresentatives;
 
+        return representativesLeft;
+    };
+
+    void distribute()
+    {
+        int states = 51;
+        float copyRemainder[states];
+
+        for (int i = 0; i < states; i++)
+        {
+            copyRemainder[i] = remainder[i];
+        }
+        sort(copyRemainder, copyRemainder + states);
+
+        int representativesLeft = representativeLeft();
+        if (representativesLeft > 0)
+        {
+            for (int i = 0; i < states; i++)
+            {
+                for (int k = states; k > states - representativesLeft; k--)
+                {
+                    if (remainder[i] == copyRemainder[k])
+                    { // Since copyRemainder is a sorted list in ascending order, find the index of the next largest remainder value and add a representative in a descending until there are no more leftover representatives.
+                        floorValue[i] += 1;
+                    }
+                }
+            }
+        }
+    };
 };
 
 int main()
@@ -116,7 +159,7 @@ int main()
     cout << '\n'
          << "Total Population: " << test1.totalPopulation();
     cout << '\n'
-         << "Population average: " << test1.avgRepPerPop();
+         << "Population average: " << test1.avgRepPerPop() << '\n';
 
     return 0;
 }
