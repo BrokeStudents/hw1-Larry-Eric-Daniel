@@ -62,7 +62,7 @@ public:
     void save()
     {
         distribute();
-        for (long unsigned int i = 0; i < state_name.size(); i++)
+        for (size_t i = 0; i < state_name.size(); i++)
         {
             writeRecordToFile(i);
         }
@@ -119,7 +119,7 @@ private:
     void distribute()
     {
         int length = state_name.size();
-        float copyRemainder[length];
+        float *copyRemainder = new float[length];
         int average = avgRepPerPop();
 
         for (int i = 0; i < length; i++)
@@ -149,6 +149,7 @@ private:
             copyRemainder[index] = 0;
             representativesLeft--;
         }
+        delete[] copyRemainder;
     }
 };
 
