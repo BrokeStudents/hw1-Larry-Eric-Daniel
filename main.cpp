@@ -4,6 +4,9 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <OpenXLSX.hpp>
+
+using namespace OpenXLSX;
 using namespace std;
 
 class BaseApportionment
@@ -25,24 +28,32 @@ public:
         string ifile_name;   // input file name
         cout << "Enter the csv file name with .csv extension. " << endl;
         cin >> ifile_name;
-        input_file.open(ifile_name);
-        if (!input_file.is_open())
-        {
-            cout << "Error: File Failed to Open" << endl;
-            exit(1);
+        if (ifile_name.find(".xlsx") != string::npos) {
+            XLDocument doc;
+
+            return;
         }
-        while (input_file.good())
-        {
-            string line1;
-            string line2;
-            getline(input_file, line1, ',');
-            getline(input_file, line2, '\n');
-            if (line1 == "" || line2 == "")
-                break;
-            state_name.push_back(line1);
-            pop_number.push_back(atoi(line2.c_str()));
+        else {
+            input_file.open(ifile_name);
+            if (!input_file.is_open())
+            {
+                cout << "Error: File Failed to Open" << endl;
+                exit(1);
+            }
+            while (input_file.good())
+            {
+                string line1;
+                string line2;
+                getline(input_file, line1, ',');
+                getline(input_file, line2, '\n');
+                if (line1 == "" || line2 == "")
+                    break;
+                state_name.push_back(line1);
+                pop_number.push_back(atoi(line2.c_str()));
+            }
+            input_file.close();
         }
-        input_file.close();
+        
     };
     int totalPopulation() const
     {
@@ -192,9 +203,6 @@ int main()
 {
     HamiltonApportionment test(435, "hamilton.csv");
     test.input();
-    test.save();
-    HuntingtonApportionment test1(435, "huntington.csv");
-    test1.input();
-    test1.save();
+    
     return 0;
 }
