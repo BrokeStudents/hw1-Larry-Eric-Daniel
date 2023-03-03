@@ -151,6 +151,12 @@ private:
 
 class HuntingtonApportionment : public BaseApportionment
 {
+public:
+    float priority(int population, int state_repr)
+    {
+        return population / sqrt(state_repr * (state_repr + 1));
+    }
+
 private:
     void distribute(){};
 };
@@ -163,6 +169,5 @@ int main()
          << "Total Population: " << test1.totalPopulation();
     cout << '\n'
          << "Population average: " << test1.avgRepPerPop() << '\n';
-
     return 0;
 }
