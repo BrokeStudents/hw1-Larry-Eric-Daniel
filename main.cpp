@@ -6,18 +6,18 @@
 #include <cmath>
 using namespace std;
 
-class Apportionment
+class BaseApportionment
 {
 public:
-    Apportionment()
+    BaseApportionment()
     {
         max_rep = 435;
     };
-    Apportionment(int max_number_of_representatives)
+    BaseApportionment(int max_number_of_representatives)
     {
         max_rep = max_number_of_representatives;
     };
-    ~Apportionment()
+    ~BaseApportionment()
     {
         input_file.close();
         output_file.close();
@@ -42,7 +42,6 @@ public:
             numbers.push_back(atoi(line2.c_str()));
         }
     };
-
     int totalPopulation() const
     {
         int population = 0;
@@ -52,13 +51,11 @@ public:
         }
         return population;
     };
-
     int avgRepPerPop() const
     {
         int population = totalPopulation();
         return population / max_rep;
     };
-
     void output()
     {
         distribute();
@@ -70,19 +67,6 @@ public:
             writeRecordToFile("Rep2020.csv", rep[i], i);
         }
     };
-
-private:
-    int max_rep;
-    string fileName;
-    ifstream input_file;
-    ofstream output_file;
-
-    vector<int> numbers;
-    float number_of_Representatives[51];
-    float remainder[51];
-    int floorValue[51];
-    vector<string> rep;
-
     void writeRecordToFile(string file_name, string Field1, int i)
     {
         ofstream file;
@@ -99,6 +83,19 @@ private:
             }
         }
     }
+
+protected:
+    int max_rep;
+    string fileName;
+    ifstream input_file;
+    ofstream output_file;
+
+    vector<int> numbers;
+    float number_of_Representatives[51];
+    float remainder[51];
+    int floorValue[51];
+    vector<string> rep;
+
     int representativeLeft()
     {
         int totalRepresentatives = 0;
@@ -110,44 +107,56 @@ private:
 
         return representativesLeft;
     };
+    virtual void distribute() = 0;
+};
 
+class HamiltonApportionment : public BaseApportionment
+{
+private:
     void distribute()
     {
-
         int states = 51;
         float copyRemainder[states];
         int average = avgRepPerPop();
 
-        for (int i = 0; i < 51; i++)
+        for (int i = 0; i < states; i++)
         {
-            number_of_Representatives[i] = numbers[i] / static_cast<float>(average);
+            number_of_Representatives[i] = numbers[i] / average;
+            remainder[i] = numbers[i] % average;
             floorValue[i] = floor(number_of_Representatives[i]);
-            remainder[i] = number_of_Representatives[i] - floorValue[i];
+        }
+        int representativesLeft = representativeLeft();
+        for (int i = 0; i < states; i++)
+        {
             copyRemainder[i] = remainder[i];
         }
-
-        sort(copyRemainder, copyRemainder + states);
-
-        int representativesLeft = representativeLeft();
-        if (representativesLeft > 0)
+        while (representativesLeft > 0)
         {
+            int max = 0;
+            int index = 0;
             for (int i = 0; i < states; i++)
             {
-                for (int k = states; k > states - representativesLeft; k--)
+                if (copyRemainder[i] > max)
                 {
-                    if (remainder[i] == copyRemainder[k])
-                    { // Since copyRemainder is a sorted list in ascending order, find the index of the next largest remainder value and add a representative in a descending until there are no more leftover representatives.
-                        floorValue[i] += 1;
-                    }
+                    max = copyRemainder[i];
+                    index = i;
                 }
             }
+            floorValue[index] += 1;
+            copyRemainder[index] = 0;
+            representativesLeft--;
         }
-    };
+    }
 };
 
+class HuntingtonApportionment : public BaseApportionment
+{
+private:
+    void distribute(){};
+};
 int main()
 {
-    Apportionment test1;
+    HamiltonApportionment test1;
     test1.input();
     test1.output();
     cout << '\n'
