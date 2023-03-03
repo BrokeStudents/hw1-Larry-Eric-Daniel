@@ -115,7 +115,7 @@ private:
     {
 
         int states = 51;
-        float copyRemainder[states];
+        float *copyRemainder = new float[states];
         int average = avgRepPerPop();
 
         for (int i = 0; i < 51; i++)
@@ -142,6 +142,7 @@ private:
                 }
             }
         }
+        delete[] copyRemainder;
     };
 };
 
