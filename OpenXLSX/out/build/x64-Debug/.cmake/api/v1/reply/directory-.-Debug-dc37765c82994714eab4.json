@@ -1,0 +1,160 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 258,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 264,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 269,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 275,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 295,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 314,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "include/OpenXLSX/headers",
+			"paths" : 
+			[
+				"out/build/x64-Debug/OpenXLSX-Exports.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "include/OpenXLSX/headers",
+			"paths" : 
+			[
+				"headers/IZipArchive.hpp",
+				"headers/XLCell.hpp",
+				"headers/XLCellIterator.hpp",
+				"headers/XLCellRange.hpp",
+				"headers/XLCellReference.hpp",
+				"headers/XLCellValue.hpp",
+				"headers/XLColor.hpp",
+				"headers/XLColumn.hpp",
+				"headers/XLCommandQuery.hpp",
+				"headers/XLConstants.hpp",
+				"headers/XLContentTypes.hpp",
+				"headers/XLDateTime.hpp",
+				"headers/XLDocument.hpp",
+				"headers/XLException.hpp",
+				"headers/XLFormula.hpp",
+				"headers/XLIterator.hpp",
+				"headers/XLProperties.hpp",
+				"headers/XLRelationships.hpp",
+				"headers/XLRow.hpp",
+				"headers/XLRowData.hpp",
+				"headers/XLSharedStrings.hpp",
+				"headers/XLSheet.hpp",
+				"headers/XLWorkbook.hpp",
+				"headers/XLXmlData.hpp",
+				"headers/XLXmlFile.hpp",
+				"headers/XLXmlParser.hpp",
+				"headers/XLZipArchive.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "include/OpenXLSX",
+			"paths" : 
+			[
+				"OpenXLSX.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "lib",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"OpenXLSXd.lib"
+			],
+			"targetId" : "OpenXLSX::@6890427a1f51a3e7e1df",
+			"targetIndex" : 0,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 5,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/OpenXLSX",
+			"paths" : 
+			[
+				"OpenXLSXConfig.cmake",
+				"out/build/x64-Debug/OpenXLSX/OpenXLSXConfigVersion.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 6,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/OpenXLSX",
+			"exportName" : "OpenXLSXTargets",
+			"exportTargets" : 
+			[
+				{
+					"id" : "OpenXLSX::@6890427a1f51a3e7e1df",
+					"index" : 0
+				}
+			],
+			"paths" : 
+			[
+				"CMakeFiles/Export/lib/cmake/OpenXLSX/OpenXLSXTargets.cmake"
+			],
+			"type" : "export"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	}
+}

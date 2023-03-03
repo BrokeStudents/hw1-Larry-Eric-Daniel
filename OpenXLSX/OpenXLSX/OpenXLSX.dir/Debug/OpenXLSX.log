@@ -1,0 +1,99 @@
+﻿  1>Building Custom Rule C:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel/OpenXLSX/CMakeLists.txt
+  XLCell.cpp
+  XLCellIterator.cpp
+  XLCellRange.cpp
+  XLCellReference.cpp
+  XLCellValue.cpp
+  XLColor.cpp
+  XLColumn.cpp
+  XLContentTypes.cpp
+  XLDateTime.cpp
+  XLDocument.cpp
+C:\Users\300350409\Desktop\hw1-Larry-Eric-Daniel\OpenXLSX\sources\XLDocument.cpp(668,26): warning C4834: discarding return value of function with 'nodiscard' attribute
+  XLFormula.cpp
+  XLProperties.cpp
+  XLRelationships.cpp
+  XLRow.cpp
+  XLRowData.cpp
+  XLSharedStrings.cpp
+  XLSheet.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\xutility(231,49): warning C4242: 'initializing': conversion from '_Ty' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=unsigned int
+          ]
+          and
+          [
+              _Ty=short
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\vector(829): message : see reference to function template instantiation 'void std::_Construct_in_place<short,_Ty>(short &,_Ty &&) noexcept' being compiled
+          with
+          [
+              _Ty=unsigned int
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\vector(816): message : see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_back_with_unused_capacity<unsigned int>(unsigned int &&)' being compiled
+          with
+          [
+              _Ty=int16_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\vector(822): message : see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_back_with_unused_capacity<unsigned int>(unsigned int &&)' being compiled
+          with
+          [
+              _Ty=int16_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\vector(902): message : see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_one_at_back<unsigned int>(unsigned int &&)' being compiled
+          with
+          [
+              _Ty=int16_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\vector(904): message : see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_one_at_back<unsigned int>(unsigned int &&)' being compiled
+          with
+          [
+              _Ty=int16_t
+          ]
+C:\Users\300350409\Desktop\hw1-Larry-Eric-Daniel\OpenXLSX\sources\XLSheet.cpp(535): message : see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::emplace_back<unsigned int>(unsigned int &&)' being compiled
+          with
+          [
+              _Ty=int16_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\xmemory(675,1): warning C4242: 'initializing': conversion from '_Ty' to '_Objty', possible loss of data
+          with
+          [
+              _Ty=unsigned int
+          ]
+          and
+          [
+              _Objty=short
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\vector(852): message : see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,unsigned int>(_Alloc &,_Objty *const ,unsigned int &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<int16_t>,
+              _Ty=short,
+              _Objty=short
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\vector(876): message : see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,unsigned int>(_Alloc &,_Objty *const ,unsigned int &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<int16_t>,
+              _Ty=short,
+              _Objty=short
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\vector(816): message : see reference to function template instantiation 'short *std::vector<int16_t,std::allocator<int16_t>>::_Emplace_reallocate<_Ty>(short *const ,_Ty &&)' being compiled
+          with
+          [
+              _Ty=unsigned int
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.33.31629\include\vector(825): message : see reference to function template instantiation 'short *std::vector<int16_t,std::allocator<int16_t>>::_Emplace_reallocate<_Ty>(short *const ,_Ty &&)' being compiled
+          with
+          [
+              _Ty=unsigned int
+          ]
+  XLWorkbook.cpp
+  XLXmlData.cpp
+  XLXmlFile.cpp
+  Generating Code...
+  Compiling...
+  XLZipArchive.cpp
+  Generating Code...
+  OpenXLSX.vcxproj -> C:\Users\300350409\Desktop\hw1-Larry-Eric-Daniel\OpenXLSX\output\Debug\OpenXLSXd.lib

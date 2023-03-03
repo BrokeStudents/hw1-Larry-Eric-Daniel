@@ -1,0 +1,6 @@
+C:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel/OpenXLSX/out/build/x64-Debug/CMakeFiles/OpenXLSX.dir
+C:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel/OpenXLSX/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel/OpenXLSX/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel/OpenXLSX/out/build/x64-Debug/CMakeFiles/list_install_components.dir
+C:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel/OpenXLSX/out/build/x64-Debug/CMakeFiles/install.dir
+C:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel/OpenXLSX/out/build/x64-Debug/CMakeFiles/install/local.dir
