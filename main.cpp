@@ -9,60 +9,15 @@ using namespace std;
 class BaseApportionment
 {
 public:
-    virtual void input() = 0;
-    int totalPopulation() const
-    {
-        int population = 0;
-        for (auto it = numbers.begin(); it != numbers.end(); ++it)
-        {
-            population += *it;
-        }
-        return population;
-    };
-    int avgRepPerPop() const
-    {
-        int population = totalPopulation();
-        return population / max_rep;
-    };
-    virtual void output() = 0;
-
-protected:
-    int max_rep;
-    string fileName;
-    ifstream input_file;
-    ofstream output_file;
-
-    vector<int> numbers;
-    float number_of_Representatives[51];
-    float remainder[51];
-    int floorValue[51];
-    vector<string> rep;
-    virtual void writeRecordToFile(string file_name, string Field1, int i) = 0;
-    int representativeLeft()
-    {
-        int totalRepresentatives = 0;
-        for (int i = 0; i < 51; i++)
-        {
-            totalRepresentatives += floorValue[i];
-        }
-        int representativesLeft = max_rep - totalRepresentatives + 1;
-
-        return representativesLeft;
-    };
-    virtual void distribute() = 0;
-};
-class HamiltonApportionment : public BaseApportionment
-{
-public:
-    HamiltonApportionment()
+    BaseApportionment()
     {
         max_rep = 435;
     };
-    HamiltonApportionment(int max_number_of_representatives)
+    BaseApportionment(int max_number_of_representatives)
     {
         max_rep = max_number_of_representatives;
     };
-    ~HamiltonApportionment()
+    ~BaseApportionment()
     {
         input_file.close();
         output_file.close();
@@ -87,6 +42,20 @@ public:
             numbers.push_back(atoi(line2.c_str()));
         }
     };
+    int totalPopulation() const
+    {
+        int population = 0;
+        for (auto it = numbers.begin(); it != numbers.end(); ++it)
+        {
+            population += *it;
+        }
+        return population;
+    };
+    int avgRepPerPop() const
+    {
+        int population = totalPopulation();
+        return population / max_rep;
+    };
     void output()
     {
         distribute();
@@ -98,8 +67,6 @@ public:
             writeRecordToFile("Rep2020.csv", rep[i], i);
         }
     };
-
-private:
     void writeRecordToFile(string file_name, string Field1, int i)
     {
         ofstream file;
@@ -116,6 +83,36 @@ private:
             }
         }
     }
+
+protected:
+    int max_rep;
+    string fileName;
+    ifstream input_file;
+    ofstream output_file;
+
+    vector<int> numbers;
+    float number_of_Representatives[51];
+    float remainder[51];
+    int floorValue[51];
+    vector<string> rep;
+
+    int representativeLeft()
+    {
+        int totalRepresentatives = 0;
+        for (int i = 0; i < 51; i++)
+        {
+            totalRepresentatives += floorValue[i];
+        }
+        int representativesLeft = max_rep - totalRepresentatives + 1;
+
+        return representativesLeft;
+    };
+    virtual void distribute() = 0;
+};
+
+class HamiltonApportionment : public BaseApportionment
+{
+private:
     void distribute()
     {
         int states = 51;
@@ -152,7 +149,11 @@ private:
     }
 };
 
-
+class HuntingtonApportionment : public BaseApportionment
+{
+private:
+    void distribute(){};
+};
 int main()
 {
     HamiltonApportionment test1;
