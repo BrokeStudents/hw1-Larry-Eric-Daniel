@@ -37,6 +37,8 @@ public:
             string line2;
             getline(input_file, line1, ',');
             getline(input_file, line2, '\n');
+            if (line1 == "" || line2 == "")
+                break;
             state_name.push_back(line1);
             pop_number.push_back(atoi(line2.c_str()));
         }
@@ -138,7 +140,7 @@ private:
                     index = i;
                 }
             }
-            floor_value[index] += 1;
+            state_rep[index] += 1;
             copyRemainder[index] = 0;
             representativesLeft--;
         }
