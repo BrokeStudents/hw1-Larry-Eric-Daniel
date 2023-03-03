@@ -108,6 +108,11 @@ protected:
 
 class HamiltonApportionment : public BaseApportionment
 {
+public:
+    HamiltonApportionment(int max_number_of_representatives, string output_file_name) : BaseApportionment(max_number_of_representatives, output_file_name)
+    {
+    }
+
 private:
     vector<int> floor_value; // floor value of the number of representatives
     vector<float> remainder; // remainder of the number of representatives
@@ -150,21 +155,45 @@ private:
 class HuntingtonApportionment : public BaseApportionment
 {
 public:
+    HuntingtonApportionment(int max_number_of_representatives, string output_file_name) : BaseApportionment(max_number_of_representatives, output_file_name)
+    {
+    }
     float priority(int population, int state_repr)
     {
         return population / sqrt(state_repr * (state_repr + 1));
     }
 
 private:
+    void distribute()
+    {
+        int length = state_name.size();
+        for (int i = 0; i < length; i++)
+        {
+            state_rep.push_back(1);
+        }
+        while (representativeLeft() > 0)
+        {
+            int max = 0;
+            int index = 0;
+            for (int i = 0; i < length; i++)
+            {
+                if (priority(pop_number[i], state_rep[i]) > max)
+                {
+                    max = priority(pop_number[i], state_rep[i]);
+                    index = i;
+                }
+            }
+            state_rep[index] += 1;
+        }
+    };
 };
 int main()
 {
-    HamiltonApportionment test1;
+    HamiltonApportionment test(435, "hamilton.csv");
+    test.input();
+    test.save();
+    HuntingtonApportionment test1(435, "huntington.csv");
     test1.input();
     test1.save();
-    cout << '\n'
-         << "Total Population: " << test1.totalPopulation();
-    cout << '\n'
-         << "Population average: " << test1.avgRepPerPop() << '\n';
     return 0;
 }
