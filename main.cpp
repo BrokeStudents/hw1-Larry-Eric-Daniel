@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <cmath>
 #include <OpenXLSX.hpp>
-
+#include <regex>
 using namespace OpenXLSX;
 using namespace std;
 
@@ -24,16 +24,32 @@ public:
     };
     void input()
     {
-        ifstream input_file; // input file
-        string ifile_name;   // input file name
-        cout << "Enter the csv file name with .csv extension. " << endl;
+        string ifile_name;
+        cout << "Enter the file name with .csv/.xlsx extension. " << endl;
         cin >> ifile_name;
-        if (ifile_name.find(".xlsx") != string::npos) {
+        regex is_xlsx_expr("^.*\.xlsx$");
+        if (regex_match(ifile_name, is_xlsx_expr)) {
             XLDocument doc;
-
+            doc.open(ifile_name);
+            auto wkb = doc.workbook();
+            auto wks = wkb.worksheet(wkb.worksheetNames()[0]);
+            for (auto& row : wks.rows()) {
+                string first_col_value = vector<XLCellValue>(row.values())[0];
+                if (first_col_value == "State")
+                    continue;
+                int second_col_value = vector<XLCellValue>(row.values())[1];
+                regex string_expr("^[A-Z][a-z]+$");
+                regex integer_expr("^[\d]+$");
+                if (regex_match(first_col_value, string_expr) || regex_match(to_string(second_col_value), integer_expr)) {
+                    state_name.push_back(first_col_value);
+                    pop_number.push_back(second_col_value);
+                }
+            }
+            doc.close();
             return;
         }
-        else {
+       else {
+            ifstream input_file; // input file
             input_file.open(ifile_name);
             if (!input_file.is_open())
             {
@@ -42,14 +58,20 @@ public:
             }
             while (input_file.good())
             {
-                string line1;
-                string line2;
-                getline(input_file, line1, ',');
-                getline(input_file, line2, '\n');
-                if (line1 == "" || line2 == "")
+                string first_col_value;
+                string second_col_value;
+                getline(input_file, first_col_value, ',');
+                getline(input_file, second_col_value, '\n');
+                if (first_col_value == "State")
+                    continue;
+                if (first_col_value == "" || second_col_value == "")
                     break;
-                state_name.push_back(line1);
-                pop_number.push_back(atoi(line2.c_str()));
+                regex string_expr("[A-Z][a-z]+");
+                regex integer_expr("[0-9]+");
+                if (regex_match(first_col_value, string_expr) || regex_match(second_col_value, integer_expr)) {
+                    state_name.push_back(first_col_value);
+                    pop_number.push_back(atoi(second_col_value.c_str()));
+                }
             }
             input_file.close();
         }
@@ -203,6 +225,9 @@ int main()
 {
     HamiltonApportionment test(435, "hamilton.csv");
     test.input();
-    
+    test.save();
+    HuntingtonApportionment test1(435, "huntington.csv");
+    test1.input();
+    test1.save();
     return 0;
 }
