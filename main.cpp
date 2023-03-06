@@ -146,6 +146,7 @@ public:
     {
     }
 
+
 private:
     vector<int> floor_value; // floor value of the number of representatives
     vector<float> remainder; // remainder of the number of representatives
@@ -153,6 +154,7 @@ private:
     {
         int length = state_name.size();
         float *copyRemainder = new float[length];
+
         int average = avgRepPerPop();
 
         for (int i = 0; i < length; i++)
@@ -219,6 +221,7 @@ private:
             }
             state_rep[index] += 1;
         }
+        delete[] copyRemainder;
     };
 };
 int main()
