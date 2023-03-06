@@ -25,7 +25,7 @@ public:
     void input()
     {
         string ifile_name;
-        cout << "Enter the file name with .csv/.xlsx extension. " << endl;
+        cout << typeid(*this).name() << " - Enter the file name with .csv/.xlsx extension. " << endl;
         cin >> ifile_name;
         regex is_xlsx_expr("^.*\.xlsx$");
         if (regex_match(ifile_name, is_xlsx_expr)) {
