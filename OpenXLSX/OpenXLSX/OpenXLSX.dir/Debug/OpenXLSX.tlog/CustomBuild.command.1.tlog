@@ -1,0 +1,10 @@
+^C:\USERS\300350409\DESKTOP\HW1-LARRY-ERIC-DANIEL\OPENXLSX\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel -BC:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel/OpenXLSX --check-stamp-file C:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel/OpenXLSX/OpenXLSX/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
