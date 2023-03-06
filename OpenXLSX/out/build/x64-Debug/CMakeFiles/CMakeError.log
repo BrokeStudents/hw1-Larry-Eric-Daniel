@@ -1,0 +1,18 @@
+Performing C++ SOURCE FILE Test COMPILER_HAS_DEPRECATED_ATTR failed with the following output:
+Change Dir: C:/Users/300350409/Desktop/hw1-Larry-Eric-Daniel/OpenXLSX/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_cf336 && [1/2] Building CXX object CMakeFiles\cmTC_cf336.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_cf336.dir/src.cxx.obj 
+C:\PROGRA~1\MIB055~1\2022\ENTERP~1\VC\Tools\MSVC\1433~1.316\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_HAS_DEPRECATED_ATTR  /DWIN32 /D_WINDOWS /GR /EHsc  /Zi /Ob0 /Od /RTC1 -MDd -std:c++17 /showIncludes /FoCMakeFiles\cmTC_cf336.dir\src.cxx.obj /FdCMakeFiles\cmTC_cf336.dir\ /FS -c C:\Users\300350409\Desktop\hw1-Larry-Eric-Daniel\OpenXLSX\out\build\x64-Debug\CMakeFiles\CMakeTmp\src.cxx
+C:\Users\300350409\Desktop\hw1-Larry-Eric-Daniel\OpenXLSX\out\build\x64-Debug\CMakeFiles\CMakeTmp\src.cxx(1): error C2065: '__deprecated__': undeclared identifier
+C:\Users\300350409\Desktop\hw1-Larry-Eric-Daniel\OpenXLSX\out\build\x64-Debug\CMakeFiles\CMakeTmp\src.cxx(1): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\300350409\Desktop\hw1-Larry-Eric-Daniel\OpenXLSX\out\build\x64-Debug\CMakeFiles\CMakeTmp\src.cxx(1): error C2062: type 'int' unexpected
+C:\Users\300350409\Desktop\hw1-Larry-Eric-Daniel\OpenXLSX\out\build\x64-Debug\CMakeFiles\CMakeTmp\src.cxx(1): error C2143: syntax error: missing ';' before '{'
+C:\Users\300350409\Desktop\hw1-Larry-Eric-Daniel\OpenXLSX\out\build\x64-Debug\CMakeFiles\CMakeTmp\src.cxx(1): error C2447: '{': missing function header (old-style formal list?)
+C:\Users\300350409\Desktop\hw1-Larry-Eric-Daniel\OpenXLSX\out\build\x64-Debug\CMakeFiles\CMakeTmp\src.cxx(2): error C3861: 'somefunc': identifier not found
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+__attribute__((__deprecated__)) int somefunc() { return 0; }
+    int main() { return somefunc();}

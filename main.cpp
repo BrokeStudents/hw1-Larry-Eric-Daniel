@@ -4,89 +4,106 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <OpenXLSX.hpp>
+#include <regex>
+using namespace OpenXLSX;
 using namespace std;
 
-class Apportionment
+class BaseApportionment
 {
 public:
-    Apportionment()
+    BaseApportionment()
     {
         max_rep = 435;
+        output_file_name = "Rep2020.csv";
     };
-    Apportionment(int max_number_of_representatives)
+    BaseApportionment(int max_number_of_representatives, string output_file_name)
     {
         max_rep = max_number_of_representatives;
-    };
-    ~Apportionment()
-    {
-        input_file.close();
-        output_file.close();
+        this->output_file_name = output_file_name;
     };
     void input()
     {
-        cout << "Enter the csv file name with .csv extension. " << endl;
-        cin >> fileName;
-        input_file.open(fileName);
-        if (!input_file.is_open())
-        {
-            cout << "Error: File Failed to Open" << endl;
-            exit(1);
+        string ifile_name;
+        cout << typeid(*this).name() << " - Enter the file name with .csv/.xlsx extension. " << endl;
+        cin >> ifile_name;
+        regex is_xlsx_expr("^.*\.xlsx$");
+        if (regex_match(ifile_name, is_xlsx_expr)) {
+            XLDocument doc;
+            doc.open(ifile_name);
+            auto wkb = doc.workbook();
+            auto wks = wkb.worksheet(wkb.worksheetNames()[0]);
+            for (auto& row : wks.rows()) {
+                string first_col_value = vector<XLCellValue>(row.values())[0];
+                if (first_col_value == "State")
+                    continue;
+                int second_col_value = vector<XLCellValue>(row.values())[1];
+                regex string_expr("^[A-Z][a-z]+$");
+                regex integer_expr("^[\d]+$");
+                if (regex_match(first_col_value, string_expr) || regex_match(to_string(second_col_value), integer_expr)) {
+                    state_name.push_back(first_col_value);
+                    pop_number.push_back(second_col_value);
+                }
+            }
+            doc.close();
+            return;
         }
-        while (input_file.good())
-        {
-            string line1;
-            string line2;
-            getline(input_file, line1, ',');
-            getline(input_file, line2, '\n');
-            rep.push_back(line1);
-            numbers.push_back(atoi(line2.c_str()));
+       else {
+            ifstream input_file; // input file
+            input_file.open(ifile_name);
+            if (!input_file.is_open())
+            {
+                cout << "Error: File Failed to Open" << endl;
+                exit(1);
+            }
+            while (input_file.good())
+            {
+                string first_col_value;
+                string second_col_value;
+                getline(input_file, first_col_value, ',');
+                getline(input_file, second_col_value, '\n');
+                if (first_col_value == "State")
+                    continue;
+                if (first_col_value == "" || second_col_value == "")
+                    break;
+                regex string_expr("[A-Z][a-z]+");
+                regex integer_expr("[0-9]+");
+                if (regex_match(first_col_value, string_expr) || regex_match(second_col_value, integer_expr)) {
+                    state_name.push_back(first_col_value);
+                    pop_number.push_back(atoi(second_col_value.c_str()));
+                }
+            }
+            input_file.close();
         }
+        
     };
-
     int totalPopulation() const
     {
         int population = 0;
-        for (auto it = numbers.begin(); it != numbers.end(); ++it)
+        int length = state_name.size();
+        for (int i = 0; i < length; i++)
         {
-            population += *it;
+            population += pop_number[i];
         }
         return population;
     };
-
     int avgRepPerPop() const
     {
         int population = totalPopulation();
         return population / max_rep;
     };
-
-    void output()
+    void save()
     {
         distribute();
-        for (int i = 0; i < 51; i++)
+        for (size_t i = 0; i < state_name.size(); i++)
         {
-            cout << '\n'
-                 << rep[i] << " - "
-                 << "Representatives: " << number_of_Representatives[i] << " floorValue : " << floorValue[i] << " remainder : " << remainder[i] << '\n';
-            writeRecordToFile("Rep2020.csv", rep[i], i);
+            writeRecordToFile(i);
         }
     };
-
-private:
-    int max_rep;
-    string fileName;
-    ifstream input_file;
-    ofstream output_file;
-
-    vector<int> numbers;
-    float number_of_Representatives[51];
-    float remainder[51];
-    int floorValue[51];
-    vector<string> rep;
-
-    void writeRecordToFile(string file_name, string Field1, int i)
+    void writeRecordToFile(int i)
     {
         ofstream file;
-        file.open(file_name, ios_base::app);
+        file.open(output_file_name, ios_base::app);
         if (file.is_open())
         {
             if (i == 0)
@@ -95,66 +112,125 @@ private:
             }
             else
             {
-                file << Field1 << "," << floorValue[i] << endl;
+                file << state_name[i] << "," << state_rep[i] << endl;
             }
         }
+        file.close();
     }
+
+protected:
+    int max_rep;
+    string output_file_name;
+    vector<string> state_name; // name of the state
+    vector<int> pop_number;    // population of the state
+    vector<float> state_rep;   // number of representatives per state
+
     int representativeLeft()
     {
         int totalRepresentatives = 0;
-        for (int i = 0; i < 51; i++)
+        for (long unsigned int i = 0; i < state_name.size(); i++)
         {
-            totalRepresentatives += floorValue[i];
+            totalRepresentatives += state_rep[i];
         }
         int representativesLeft = max_rep - totalRepresentatives + 1;
 
         return representativesLeft;
     };
+    virtual void distribute() = 0;
+};
 
+class HamiltonApportionment : public BaseApportionment
+{
+public:
+    HamiltonApportionment(int max_number_of_representatives, string output_file_name) : BaseApportionment(max_number_of_representatives, output_file_name)
+    {
+    }
+
+
+private:
+    vector<int> floor_value; // floor value of the number of representatives
+    vector<float> remainder; // remainder of the number of representatives
     void distribute()
     {
+        int length = state_name.size();
+        float *copyRemainder = new float[length];
 
-        int states = 51;
-        float *copyRemainder = new float[states];
         int average = avgRepPerPop();
 
-        for (int i = 0; i < 51; i++)
+        for (int i = 0; i < length; i++)
         {
-            number_of_Representatives[i] = numbers[i] / static_cast<float>(average);
-            floorValue[i] = floor(number_of_Representatives[i]);
-            remainder[i] = number_of_Representatives[i] - floorValue[i];
+            floor_value.push_back(pop_number[i] / average);
+            state_rep.push_back(floor_value[i]);
+            remainder.push_back(pop_number[i] % average);
+        }
+        int representativesLeft = representativeLeft();
+        for (int i = 0; i < length; i++)
+        {
             copyRemainder[i] = remainder[i];
         }
-
-        sort(copyRemainder, copyRemainder + states);
-
-        int representativesLeft = representativeLeft();
-        if (representativesLeft > 0)
+        while (representativesLeft > 0)
         {
-            for (int i = 0; i < states; i++)
+            int max = 0;
+            int index = 0;
+            for (int i = 0; i < length; i++)
             {
-                for (int k = states; k > states - representativesLeft; k--)
+                if (copyRemainder[i] > max)
                 {
-                    if (remainder[i] == copyRemainder[k])
-                    { // Since copyRemainder is a sorted list in ascending order, find the index of the next largest remainder value and add a representative in a descending until there are no more leftover representatives.
-                        floorValue[i] += 1;
-                    }
+                    max = copyRemainder[i];
+                    index = i;
                 }
             }
+            state_rep[index] += 1;
+            copyRemainder[index] = 0;
+            representativesLeft--;
+        }
+        delete[] copyRemainder;
+    }
+};
+
+class HuntingtonApportionment : public BaseApportionment
+{
+public:
+    HuntingtonApportionment(int max_number_of_representatives, string output_file_name) : BaseApportionment(max_number_of_representatives, output_file_name)
+    {
+    }
+    float priority(int population, int state_repr)
+    {
+        return population / sqrt(state_repr * (state_repr + 1));
+    }
+
+private:
+    void distribute()
+    {
+        int length = state_name.size();
+        for (int i = 0; i < length; i++)
+        {
+            state_rep.push_back(1);
+        }
+        while (representativeLeft() > 0)
+        {
+            int max = 0;
+            int index = 0;
+            for (int i = 0; i < length; i++)
+            {
+                if (priority(pop_number[i], state_rep[i]) > max)
+                {
+                    max = priority(pop_number[i], state_rep[i]);
+                    index = i;
+                }
+            }
+            state_rep[index] += 1;
         }
         delete[] copyRemainder;
     };
 };
-
 int main()
 {
-    Apportionment test1;
+    HamiltonApportionment test(435, "hamilton.csv");
+    test.input();
+    test.save();
+    HuntingtonApportionment test1(435, "huntington.csv");
     test1.input();
-    test1.output();
-    cout << '\n'
-         << "Total Population: " << test1.totalPopulation();
-    cout << '\n'
-         << "Population average: " << test1.avgRepPerPop() << '\n';
-
+    test1.save();
     return 0;
 }
